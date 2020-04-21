@@ -1,4 +1,4 @@
-//look into event.target to figure out how to target the token alone as opposed to the tile div as well
+//trying to add and remove "grey_occupied" class as pieces move which follow them so we can disallow moving a piece to a tile that already has the "grey_occupied" class
 
 var player_grey = {
     turn: true,
@@ -18,6 +18,7 @@ for (var i = 0; i < player_grey.tokens.length; i++) {
 
 for (var i = 1; i < player_grey.path.length; i++) {
     player_grey.path[i].addEventListener('click', move_active_token);
+
 }
 
 
@@ -26,27 +27,71 @@ var new_position = 0;
 //Event Listener functions
 
 function set_active_token() {
+
     player_grey.path[new_position].classList.remove(
         'active_space');
 
     player_grey.active_token = this;
+
     new_position = player_grey.path.indexOf(player_grey.active_token.parentElement) + roll_val;
+    if (player_grey.path[new_position].classList.contains('grey_occupied')) {
+        console.log('no move');
+    }
     player_grey.path[new_position].classList.add('active_space');
-    console.log(player_grey.active_token);
+
 }
+var el;
+var id = "path_0";
 
 function move_active_token() {
 
+    el = player_grey.path[new_position];
+
+    if (el !== event.target) return;
+
     id = "path_" + new_position;
-    document.getElementById(id).appendChild(player_grey.active_token);
-    player_grey.path[new_position].classList.remove('active_space');
+    if (player_grey.path[new_position].classList.contains('grey_occupied')) {
+        console.log('no move');
+    } else {
+        document.getElementById(id).appendChild(player_grey.active_token);
 
-    new_position = 0;
 
 
+        player_grey.path[new_position].classList.remove('active_space');
+
+        new_position = 0;
+
+        set_occupation_status();
+    }
 }
 
+function set_occupation_status() {
+    for (i = 1; i < player_grey.path.length; i++) {
 
+        for (j = 0; j < player_grey.tokens.length; j++) {
+            // console.log(i, j);
+            if (player_grey.path[i].contains(player_grey.tokens[j])) {
+                player_grey.path[i].classList.add('grey_occupied');
+
+                //j = 0;
+                console.log(i, j, "match found");
+                if (j !== 5) {
+                    i = i + 1;
+                    j = -1;
+                    console.log(j);
+                } else {
+                    console.log('protected');
+                }
+                console.log(i);
+                continue;
+            } else {
+                player_grey.path[i].classList.remove('grey_occupied');
+                console.log(i, j, 'no match found');
+                continue;
+            }
+        }
+    }
+}
 
 
 
