@@ -1,0 +1,4 @@
+-center dice div
+-center game board
+-move columns closer together
+-make board responsive
