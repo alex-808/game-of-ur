@@ -22,7 +22,6 @@ for (var i = 1; i < player_grey.path.length; i++) {
 
 
 var new_position = 0;
-//test blah blah
 //Event Listener functions
 
 function set_active_token() {
