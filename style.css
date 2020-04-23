@@ -245,3 +245,37 @@ html {
     flex-direction: column;
     align-items: center;
 }
+
+.white_occupied {
+    width: 90%;
+    height: 10%;
+
+    margin: 5px;
+    background-image: url(img/star.jpg);
+
+    background-attachment: fixed;
+    border-radius: 20%;
+    box-shadow: 10px 10px 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player_grey_score {
+    font-size: 3vw;
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    font-family: trebuchet ms;
+    color: #CCBDB6;
+}
+
+.player_white_score {
+    font-size: 3vw;
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    font-family: trebuchet ms;
+    color: #9B9DBA;
+}
