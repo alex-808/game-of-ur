@@ -15,11 +15,16 @@ const dice = {
     diceVal1: 0,
     diceVal2: 0,
     rollVal: 0,
-    rolled: false,
+    canRoll: false,
+    dieText1: document.getElementById('die_1').innerHTML,
+    dieText2: document.getElementById('die_2').innerHTML,
     calcRollVal() {
         return this.diceVal1 + this.diceVal2;
     },
-    updateUI() {},
+    updateUI() {
+        this.dieText1 = this.diceVal1;
+        this.dieText2 = this.diceVal2;
+    },
 };
 
 var player_grey = {
@@ -385,9 +390,10 @@ function rollDice() {
         dice.diceVal2 = Math.round(Math.random() * 2);
 
         roll_val = dice.calcRollVal();
-        // dice.updateUI
+        // dice.updateUI();
         document.getElementById('die_1').innerHTML = dice.diceVal1;
         document.getElementById('die_2').innerHTML = dice.diceVal2;
+
         dice_rolled = true;
         if (roll_val === 0) {
             dice_rolled = false;
