@@ -2,8 +2,27 @@
 //I believe this is due to each token going through each "if" statement instead of just one
 //this should be fixed if I change them to else if statements
 
+class Player {
+    constructor(color) {
+        this.color = color;
+        this.score = 0;
+        this.tokens = [];
+        this.path = [];
+    }
+}
+
+const dice = {
+    diceVal1: 0,
+    diceVal2: 0,
+    rollVal: 0,
+    rolled: false,
+    calcRollVal() {
+        return this.diceVal1 + this.diceVal2;
+    },
+    updateUI() {},
+};
+
 var player_grey = {
-    turn: true,
     tokens: [
         document.getElementById('grey_1'),
         document.getElementById('grey_2'),
@@ -37,7 +56,6 @@ var player_grey = {
 };
 
 var player_white = {
-    turn: true,
     tokens: [
         document.getElementById('white_1'),
         document.getElementById('white_2'),
@@ -88,14 +106,14 @@ current_player.active_token = current_player.tokens[0];
 //Event Listeners
 
 function token_initialization() {
-    for (var i = 0; i < current_player.tokens.length; i++) {
+    for (let i = 0; i < current_player.tokens.length; i++) {
         current_player.tokens[i].addEventListener('click', set_active_token);
     }
 }
 token_initialization();
 
 function path_initialization() {
-    for (var i = 1; i < current_player.path.length; i++) {
+    for (let i = 1; i < current_player.path.length; i++) {
         current_player.path[i].addEventListener('click', move_active_token);
     }
 }
@@ -363,13 +381,13 @@ dice_box.addEventListener('click', rollDice);
 function rollDice() {
     if (dice_rolled === false) {
         document.getElementById('roll_indicator').innerHTML = 'Roll!';
-        dice_val_1 = Math.round(Math.random() * 2);
-        dice_val_2 = Math.round(Math.random() * 2);
+        dice.diceVal1 = Math.round(Math.random() * 2);
+        dice.diceVal2 = Math.round(Math.random() * 2);
 
-        roll_val = dice_val_1 + dice_val_2;
-
-        document.getElementById('die_1').innerHTML = dice_val_1;
-        document.getElementById('die_2').innerHTML = dice_val_2;
+        roll_val = dice.calcRollVal();
+        // dice.updateUI
+        document.getElementById('die_1').innerHTML = dice.diceVal1;
+        document.getElementById('die_2').innerHTML = dice.diceVal2;
         dice_rolled = true;
         if (roll_val === 0) {
             dice_rolled = false;
