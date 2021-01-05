@@ -11,7 +11,8 @@
 
         <div class="play_space">
             <h1>The Royal GAME of URRRRRR</h1>
-            <div class="player_grey_score">Score: <div id="player_grey_score">0</div>
+            <div class="player_grey_score">
+                <div id="active_player_grey"></div>Score: <div id="player_grey_score">0</div>
             </div>
             <div class="dice" id='dice'>
                 <div class="die_number" id="die_1"></div>
@@ -20,11 +21,12 @@
                 <img class="die" src="img/noun_Tetrahedron_6892.png">
 
             </div>
+            <div id="roll_indicator">Roll!</div>
 
             <div class="player-tokens" id="grey_path_0">
-
-
-
+                <div class="token-1" id='grey_1'></div>
+                <div class="token-1" id='grey_2'></div>
+                <div class="token-1" id='grey_3'></div>
                 <div class="token-1" id='grey_4'></div>
                 <div class="token-1" id='grey_5'></div>
                 <div class="token-1" id='grey_6'></div>
@@ -49,15 +51,15 @@
                     <div class="score_space tile_area" id="grey_path_14"></div>
 
                     <div class="rosette" id="grey_path_13">
-                        <div class="token-1" id='grey_1'></div>
+
                     </div>
                     <div class="tile_area" id="grey_path_12">
-                        <div class="token-1" id='grey_2'></div>
+
                     </div>
                 </div>
                 <div class="column">
                     <div class="tile_area" id="path_5">
-                        <div class="token-1" id='grey_3'></div>
+
                     </div>
                     <div class="tile_area_2" id="path_6"> </div>
                     <div class="tile_area" id="path_7"> </div>
@@ -67,15 +69,21 @@
                     <div class="tile_area_2" id="path_11"> </div>
                 </div>
                 <div class="column">
-                    <div class="rosette" id="white_path_4"> </div>
-                    <div class="tile_area" id="white_path_3"> </div>
+                    <div class="rosette" id="white_path_4">
+
+                    </div>
+                    <div class="tile_area" id="white_path_3">
+
+                    </div>
                     <div class="tile_area_2" id="white_path_2"> </div>
                     <div class="tile_area" id="white_path_1"> </div>
 
                     <div class="score_space tile_area" id="white_path_14"></div>
 
                     <div class="rosette" id="white_path_13"> </div>
-                    <div class="tile_area" id="white_path_12"> </div>
+                    <div class="tile_area" id="white_path_12">
+
+                    </div>
                 </div>
             </div>
 
@@ -89,7 +97,8 @@
                 <div class="token-2" id="white_7"></div>
             </div>
             <div class="placeholder_right"></div>
-            <div class="player_white_score">Score: <div id="player_white_score">0</div>
+            <div class="player_white_score">
+                <div id="active_player_white"></div>Score: <div id="player_white_score">0</div>
             </div>
         </div>
 

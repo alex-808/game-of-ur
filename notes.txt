@@ -2,3 +2,14 @@
 -center game board
 -move columns closer together
 -make board responsive
+
+Refactoring:
+- create player class instead of 2 separate objects
+- change everything to camelCase
+- add singles event listeners to board and each player's pieces instead of many
+- create dice object
+    -rollDice method
+    -diceValue1
+    -diceValue2
+    -calcRollVal
+    -rollVal
