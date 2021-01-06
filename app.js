@@ -11,19 +11,23 @@ class Player {
     }
 }
 
+const gameState = {
+    currentPlayer: 1,
+};
+
 const dice = {
     diceVal1: 0,
     diceVal2: 0,
     rollVal: 0,
     canRoll: false,
-    dieText1: document.getElementById('die_1').innerHTML,
-    dieText2: document.getElementById('die_2').innerHTML,
+    dieElement1: document.getElementById('die_1'),
+    dieElement2: document.getElementById('die_2'),
     calcRollVal() {
         return this.diceVal1 + this.diceVal2;
     },
     updateUI() {
-        this.dieText1 = this.diceVal1;
-        this.dieText2 = this.diceVal2;
+        this.dieElement1.innerHTML = this.diceVal1;
+        this.dieElement2.innerHTML = this.diceVal2;
     },
 };
 
@@ -94,36 +98,34 @@ var player_white = {
 };
 var new_position = 0;
 var current_player = player_grey;
-var el;
 var id = 'path_0';
 var score = parseInt(
     document.getElementById('player_' + current_player.color + '_score')
         .innerHTML
 );
 var dice_box = document.getElementById('dice');
-var dice_val_1;
-var dice_val_2;
 var roll_val;
 var dice_rolled = false;
 
 current_player.active_token = current_player.tokens[0];
 
-//Event Listeners
+//Event Listener Initialization functions
 
-function token_initialization() {
+function tokenInit() {
     for (let i = 0; i < current_player.tokens.length; i++) {
         current_player.tokens[i].addEventListener('click', set_active_token);
     }
 }
-token_initialization();
 
-function path_initialization() {
+function pathInit() {
     for (let i = 1; i < current_player.path.length; i++) {
         current_player.path[i].addEventListener('click', move_active_token);
     }
 }
 
-path_initialization();
+function diceBoxInit() {
+    dice_box.addEventListener('click', rollDice);
+}
 
 //Event Listener functions
 
@@ -172,8 +174,8 @@ function set_active_token() {
 
             change_turn();
             set_turn_indicator();
-            token_initialization();
-            path_initialization();
+            tokenInit();
+            pathInit();
             dice_rolled = false;
             return;
         }
@@ -214,7 +216,7 @@ function set_active_token() {
 }
 
 function move_active_token() {
-    el = current_player.path[new_position];
+    let el = current_player.path[new_position];
 
     if (el !== event.target) return;
     if (new_position < 5 || new_position > 11) {
@@ -260,8 +262,8 @@ function move_active_token() {
             new_position = 0;
             set_occupation_status();
             set_turn_indicator();
-            token_initialization();
-            path_initialization();
+            tokenInit();
+            pathInit();
             dice_rolled = false;
             document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
             document
@@ -276,19 +278,11 @@ function move_active_token() {
 
             change_turn();
             set_turn_indicator();
-            token_initialization();
-            path_initialization();
+            tokenInit();
+            pathInit();
             dice_rolled = false;
         }
     }
-}
-
-function end_game() {
-    dice_rolled = true;
-    document.getElementById('die_1').innerHTML = ' ';
-    document.getElementById('die_2').innerHTML = ' ';
-    document.getElementById('roll_indicator').classList.remove('invisible');
-    document.getElementById('roll_indicator').innerHTML = 'Game Over';
 }
 
 function change_turn() {
@@ -304,7 +298,7 @@ function change_turn() {
 
 function add_score() {
     if (new_position === 14) {
-        current_player.score = current_player.score + 1;
+        current_player.score++;
         document.getElementById(
             'player_' + current_player.color + '_score'
         ).innerHTML = current_player.score;
@@ -347,8 +341,6 @@ function set_turn_indicator() {
     }
 }
 
-set_turn_indicator();
-
 function set_occupation_status() {
     for (i = 1; i < current_player.path.length - 1; i++) {
         for (j = 0; j < current_player.tokens.length; j++) {
@@ -377,11 +369,7 @@ function set_occupation_status() {
     }
 }
 
-set_occupation_status();
-
 //Rolling variables and functions
-
-dice_box.addEventListener('click', rollDice);
 
 function rollDice() {
     if (dice_rolled === false) {
@@ -390,9 +378,8 @@ function rollDice() {
         dice.diceVal2 = Math.round(Math.random() * 2);
 
         roll_val = dice.calcRollVal();
-        // dice.updateUI();
-        document.getElementById('die_1').innerHTML = dice.diceVal1;
-        document.getElementById('die_2').innerHTML = dice.diceVal2;
+        dice.updateUI();
+        console.log(dice.dieElement1);
 
         dice_rolled = true;
         if (roll_val === 0) {
@@ -409,3 +396,17 @@ function rollDice() {
         console.log('no!');
     }
 }
+
+function end_game() {
+    dice_rolled = true;
+    document.getElementById('die_1').innerHTML = ' ';
+    document.getElementById('die_2').innerHTML = ' ';
+    document.getElementById('roll_indicator').classList.remove('invisible');
+    document.getElementById('roll_indicator').innerHTML = 'Game Over';
+}
+
+tokenInit();
+pathInit();
+diceBoxInit();
+set_occupation_status();
+set_turn_indicator();
