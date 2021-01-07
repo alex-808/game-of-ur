@@ -256,13 +256,15 @@ function set_active_token() {
 function move_active_token() {
     let el = current_player.path[new_position];
 
-    if (el !== event.target) return;
+    if (el !== event.target) return; // makes sure the player clicks on intended square
+
     if (new_position < 5 || new_position > 11) {
         id = current_player.color + '_path_' + new_position;
     } else {
         //console.log("5-11");
         id = 'path_' + new_position;
     }
+    // check if new position is occupied by you
     if (
         current_player.path[new_position].classList.contains(
             current_player.color + '_occupied'
@@ -270,12 +272,14 @@ function move_active_token() {
     ) {
         console.log('no move');
     } else {
+        // check if new position is occupied by opponent
         if (
             current_player.path[new_position].classList.contains(
                 current_player.opposite + '_occupied'
             )
         ) {
             console.log('capture');
+            // remove opponent token
             document
                 .getElementById(current_player.opposite + '_path_0')
                 .appendChild(
@@ -285,16 +289,18 @@ function move_active_token() {
             current_player.path[new_position].classList.remove(
                 current_player.opposite + '_occupied'
             );
+            // set tile's class you occupied by you
             current_player.path[new_position].classList.add(
                 current_player.color + '_occupied'
             );
         }
-
+        // move your token to the location
         document.getElementById(id).appendChild(current_player.active_token);
 
         current_player.path[new_position].classList.remove('active_space');
 
         add_score();
+        // check if player landed on a rosette
         if (new_position === 4 || new_position === 8 || new_position === 13) {
             console.log('rosette');
             new_position = 0;
@@ -307,8 +313,11 @@ function move_active_token() {
             document
                 .getElementById('roll_indicator')
                 .classList.remove('invisible');
+            // check if player has won
         } else if (current_player.score === 7) {
             end_game();
+            // reset new position value and tokenInit and pathInit for some reason?
+            // this needs to be fixed, we are adding event listeners every turn change
         } else {
             new_position = 0;
 
