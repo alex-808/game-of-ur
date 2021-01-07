@@ -2,14 +2,52 @@
 //I believe this is due to each token going through each "if" statement instead of just one
 //this should be fixed if I change them to else if statements
 
+const greyPathArr = [
+    document.getElementById('grey_path_0'),
+    document.getElementById('grey_path_1'),
+    document.getElementById('grey_path_2'),
+    document.getElementById('grey_path_3'),
+    document.getElementById('grey_path_4'),
+    document.getElementById('path_5'),
+    document.getElementById('path_6'),
+    document.getElementById('path_7'),
+    document.getElementById('path_8'),
+    document.getElementById('path_9'),
+    document.getElementById('path_10'),
+    document.getElementById('path_11'),
+    document.getElementById('grey_path_12'),
+    document.getElementById('grey_path_13'),
+    document.getElementById('grey_path_14'),
+];
+const whitePathArr = [
+    document.getElementById('white_path_0'),
+    document.getElementById('white_path_1'),
+    document.getElementById('white_path_2'),
+    document.getElementById('white_path_3'),
+    document.getElementById('white_path_4'),
+    document.getElementById('path_5'),
+    document.getElementById('path_6'),
+    document.getElementById('path_7'),
+    document.getElementById('path_8'),
+    document.getElementById('path_9'),
+    document.getElementById('path_10'),
+    document.getElementById('path_11'),
+    document.getElementById('white_path_12'),
+    document.getElementById('white_path_13'),
+    document.getElementById('white_path_14'),
+];
+
 class Player {
     constructor(color) {
         this.color = color;
         this.score = 0;
         this.tokens = [];
-        this.path = [];
+        if (color === 'grey') this.path = greyPathArr;
+        else this.path = this.path = whitePathArr;
     }
 }
+
+playerGrey = new Player('grey');
 
 const gameState = {
     currentPlayer: 1,
