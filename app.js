@@ -147,24 +147,6 @@ var dice_rolled = false;
 
 current_player.active_token = current_player.tokens[0];
 
-//Event Listener Initialization functions
-
-function tokenInit() {
-    for (let i = 0; i < current_player.tokens.length; i++) {
-        current_player.tokens[i].addEventListener('click', set_active_token);
-    }
-}
-
-function pathInit() {
-    for (let i = 1; i < current_player.path.length; i++) {
-        current_player.path[i].addEventListener('click', move_active_token);
-    }
-}
-
-function diceBoxInit() {
-    dice_box.addEventListener('click', rollDice);
-}
-
 //Event Listener functions
 
 function set_active_token() {
@@ -212,8 +194,7 @@ function set_active_token() {
 
             change_turn();
             set_turn_indicator();
-            tokenInit();
-            pathInit();
+
             dice_rolled = false;
             return;
         }
@@ -306,8 +287,6 @@ function move_active_token() {
             new_position = 0;
             set_occupation_status();
             set_turn_indicator();
-            tokenInit();
-            pathInit();
             dice_rolled = false;
             document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
             document
@@ -316,7 +295,7 @@ function move_active_token() {
             // check if player has won
         } else if (current_player.score === 7) {
             end_game();
-            // reset new position value and tokenInit and pathInit for some reason?
+            // reset new position value
             // this needs to be fixed, we are adding event listeners every turn change
         } else {
             new_position = 0;
@@ -325,8 +304,6 @@ function move_active_token() {
 
             change_turn();
             set_turn_indicator();
-            tokenInit();
-            pathInit();
             dice_rolled = false;
         }
     }
@@ -414,6 +391,26 @@ function set_occupation_status() {
             }
         }
     }
+}
+
+//Event Listener Initialization functions
+
+function tokenInit() {
+    for (let i = 0; i < player_grey.tokens.length; i++) {
+        player_grey.tokens[i].addEventListener('click', set_active_token);
+        player_white.tokens[i].addEventListener('click', set_active_token);
+    }
+}
+
+function pathInit() {
+    for (let i = 1; i < player_grey.path.length; i++) {
+        player_grey.path[i].addEventListener('click', move_active_token);
+        player_white.path[i].addEventListener('click', move_active_token);
+    }
+}
+
+function diceBoxInit() {
+    dice_box.addEventListener('click', rollDice);
 }
 
 //Rolling variables and functions
