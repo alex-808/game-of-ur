@@ -344,28 +344,16 @@ function add_score() {
 }
 
 function set_turn_indicator() {
-    if (current_player === player_grey) {
-        document
-            .getElementById('active_player_grey')
-            .classList.add('active_player');
+    console.log();
+    document
+        .querySelector(`#active_player_${current_player.color}`)
+        .classList.add('active_player');
 
-        document
-            .getElementById('active_player_white')
-            .classList.remove('active_player');
-    }
-
-    if (current_player === player_white) {
-        document
-            .getElementById('active_player_white')
-            .classList.add('active_player');
-
-        document
-            .getElementById('active_player_grey')
-            .classList.remove('active_player');
-    }
+    document
+        .querySelector('#active_player_' + current_player.opposite)
+        .classList.remove('active_player');
 }
-// basically this just goes through all of a player's tokens and all the player's path and identifies if it has one of the player pieces
-// if it does it adds that color's occupied class, if it doesn't, it removes it
+
 function resetOccupationStatuses(newPos, oldPos) {
     const occupationClass = current_player.color + '_occupied';
     newPos.classList.add(occupationClass);
