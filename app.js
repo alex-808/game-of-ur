@@ -194,8 +194,7 @@ function set_active_token() {
             console.log('switch turn due to no moves');
             new_position = 0;
 
-            change_turn();
-            set_turn_indicator();
+            changeTurn();
 
             dice_rolled = false;
             return;
@@ -288,7 +287,6 @@ function move_active_token() {
         if (new_position === 4 || new_position === 8 || new_position === 13) {
             console.log('rosette');
             new_position = 0;
-            set_turn_indicator();
             dice_rolled = false;
             document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
             document
@@ -302,22 +300,21 @@ function move_active_token() {
         } else {
             new_position = 0;
 
-            change_turn();
-            set_turn_indicator();
+            changeTurn();
             dice_rolled = false;
         }
     }
 }
 
-function change_turn() {
+function changeTurn() {
     if (current_player.color === 'grey') {
         current_player = player_white;
-
-        document.getElementById('roll_indicator').classList.remove('invisible');
     } else if (current_player.color === 'white') {
         current_player = player_grey;
-        document.getElementById('roll_indicator').classList.remove('invisible');
     }
+    setTurnIndicator();
+
+    document.getElementById('roll_indicator').classList.remove('invisible');
 }
 
 function add_score() {
@@ -343,7 +340,7 @@ function add_score() {
     }
 }
 
-function set_turn_indicator() {
+function setTurnIndicator() {
     console.log();
     document
         .querySelector(`#active_player_${current_player.color}`)
@@ -395,8 +392,7 @@ function rollDice() {
         dice_rolled = true;
         if (roll_val === 0) {
             dice_rolled = false;
-            change_turn();
-            set_turn_indicator();
+            changeTurn();
             // console.log(current_player);
             return;
         }
@@ -420,4 +416,4 @@ tokenInit();
 pathInit();
 diceBoxInit();
 
-set_turn_indicator();
+setTurnIndicator();
