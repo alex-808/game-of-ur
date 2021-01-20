@@ -148,7 +148,7 @@ var oldPos;
 
 current_player.active_token = current_player.tokens[0];
 
-//Event Listener functions
+//Event Listener callbacks
 
 function set_active_token() {
     if (dice_rolled === true && current_player.tokens.includes(this)) {
@@ -306,17 +306,6 @@ function move_active_token() {
     }
 }
 
-function changeTurn() {
-    if (current_player.color === 'grey') {
-        current_player = player_white;
-    } else if (current_player.color === 'white') {
-        current_player = player_grey;
-    }
-    setTurnIndicator();
-
-    document.getElementById('roll_indicator').classList.remove('invisible');
-}
-
 function add_score() {
     if (new_position === 14) {
         current_player.score++;
@@ -338,6 +327,17 @@ function add_score() {
             ).innerHTML = 'Winner!';
         }
     }
+}
+
+function changeTurn() {
+    if (current_player.color === 'grey') {
+        current_player = player_white;
+    } else if (current_player.color === 'white') {
+        current_player = player_grey;
+    }
+    setTurnIndicator();
+
+    document.getElementById('roll_indicator').classList.remove('invisible');
 }
 
 function setTurnIndicator() {
