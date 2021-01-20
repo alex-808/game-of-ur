@@ -144,6 +144,7 @@ var score = parseInt(
 var dice_box = document.getElementById('dice');
 var roll_val;
 var dice_rolled = false;
+var oldPos;
 
 current_player.active_token = current_player.tokens[0];
 
@@ -152,7 +153,9 @@ current_player.active_token = current_player.tokens[0];
 function set_active_token() {
     if (dice_rolled === true && current_player.tokens.includes(this)) {
         current_player.active_token = this;
+        oldPos = this.parentElement;
 
+        // check for no moves, should be put in a new function
         no_move_counter = 0;
 
         for (i = 0; i < current_player.tokens.length; i++) {
@@ -186,11 +189,10 @@ function set_active_token() {
             //console.log(no_move_counter);
         }
         console.log(no_move_counter);
+
         if (no_move_counter === 7) {
             console.log('switch turn due to no moves');
             new_position = 0;
-
-            set_occupation_status();
 
             change_turn();
             set_turn_indicator();
@@ -279,13 +281,13 @@ function move_active_token() {
         document.getElementById(id).appendChild(current_player.active_token);
 
         current_player.path[new_position].classList.remove('active_space');
+        resetOccupationStatuses(current_player.path[new_position], oldPos);
 
         add_score();
         // check if player landed on a rosette
         if (new_position === 4 || new_position === 8 || new_position === 13) {
             console.log('rosette');
             new_position = 0;
-            set_occupation_status();
             set_turn_indicator();
             dice_rolled = false;
             document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
@@ -299,8 +301,6 @@ function move_active_token() {
             // this needs to be fixed, we are adding event listeners every turn change
         } else {
             new_position = 0;
-
-            set_occupation_status();
 
             change_turn();
             set_turn_indicator();
@@ -364,33 +364,12 @@ function set_turn_indicator() {
             .classList.remove('active_player');
     }
 }
-
-function set_occupation_status() {
-    for (i = 1; i < current_player.path.length - 1; i++) {
-        for (j = 0; j < current_player.tokens.length; j++) {
-            //console.log(i, j);
-            if (current_player.path[i].contains(current_player.tokens[j])) {
-                current_player.path[i].classList.add(
-                    current_player.color + '_occupied'
-                );
-
-                //console.log(i, j, "match found");
-                if (j !== 6 && i !== 14) {
-                    i = i + 1;
-                    j = -1;
-                } else {
-                    console.log('protected');
-                }
-                continue;
-            } else {
-                current_player.path[i].classList.remove(
-                    current_player.color + '_occupied'
-                );
-                // console.log(i, j, 'no match found');
-                continue;
-            }
-        }
-    }
+// basically this just goes through all of a player's tokens and all the player's path and identifies if it has one of the player pieces
+// if it does it adds that color's occupied class, if it doesn't, it removes it
+function resetOccupationStatuses(newPos, oldPos) {
+    const occupationClass = current_player.color + '_occupied';
+    newPos.classList.add(occupationClass);
+    oldPos.classList.remove(occupationClass);
 }
 
 //Event Listener Initialization functions
@@ -423,14 +402,14 @@ function rollDice() {
 
         roll_val = dice.calcRollVal();
         dice.updateUI();
-        console.log(dice.dieElement1);
+        // console.log(dice.dieElement1);
 
         dice_rolled = true;
         if (roll_val === 0) {
             dice_rolled = false;
             change_turn();
             set_turn_indicator();
-            console.log(current_player);
+            // console.log(current_player);
             return;
         }
         document.getElementById('roll_indicator').classList.add('invisible');
@@ -452,5 +431,5 @@ function end_game() {
 tokenInit();
 pathInit();
 diceBoxInit();
-set_occupation_status();
+
 set_turn_indicator();
