@@ -42,12 +42,25 @@ class Player {
         this.color = color;
         this.score = 0;
         this.tokens = [];
-        if (color === 'grey') this.path = greyPathArr;
-        else this.path = this.path = whitePathArr;
+        if (color === 'grey') {
+            this.path = greyPathArr;
+            this.opposite = 'white';
+        } else {
+            this.path = this.path = whitePathArr;
+            this.opposite = 'grey';
+        }
+
+        for (let i = 1; i < 8; i++) {
+            let token = document.querySelector(`#${this.color}_${i}`);
+            this.tokens.push(token);
+        }
     }
 }
 
 playerGrey = new Player('grey');
+playerWhite = new Player('white');
+
+console.log(playerGrey);
 
 const gameState = {
     currentPlayer: 1,
@@ -69,73 +82,8 @@ const dice = {
     },
 };
 
-var player_grey = {
-    tokens: [
-        document.getElementById('grey_1'),
-        document.getElementById('grey_2'),
-        document.getElementById('grey_3'),
-        document.getElementById('grey_4'),
-        document.getElementById('grey_5'),
-        document.getElementById('grey_6'),
-        document.getElementById('grey_7'),
-    ],
-    active_token: 0,
-    path: [
-        document.getElementById('grey_path_0'),
-        document.getElementById('grey_path_1'),
-        document.getElementById('grey_path_2'),
-        document.getElementById('grey_path_3'),
-        document.getElementById('grey_path_4'),
-        document.getElementById('path_5'),
-        document.getElementById('path_6'),
-        document.getElementById('path_7'),
-        document.getElementById('path_8'),
-        document.getElementById('path_9'),
-        document.getElementById('path_10'),
-        document.getElementById('path_11'),
-        document.getElementById('grey_path_12'),
-        document.getElementById('grey_path_13'),
-        document.getElementById('grey_path_14'),
-    ],
-    color: 'grey',
-    opposite: 'white',
-    score: 0,
-};
-
-var player_white = {
-    tokens: [
-        document.getElementById('white_1'),
-        document.getElementById('white_2'),
-        document.getElementById('white_3'),
-        document.getElementById('white_4'),
-        document.getElementById('white_5'),
-        document.getElementById('white_6'),
-        document.getElementById('white_7'),
-    ],
-    active_token: 0,
-    path: [
-        document.getElementById('white_path_0'),
-        document.getElementById('white_path_1'),
-        document.getElementById('white_path_2'),
-        document.getElementById('white_path_3'),
-        document.getElementById('white_path_4'),
-        document.getElementById('path_5'),
-        document.getElementById('path_6'),
-        document.getElementById('path_7'),
-        document.getElementById('path_8'),
-        document.getElementById('path_9'),
-        document.getElementById('path_10'),
-        document.getElementById('path_11'),
-        document.getElementById('white_path_12'),
-        document.getElementById('white_path_13'),
-        document.getElementById('white_path_14'),
-    ],
-    color: 'white',
-    opposite: 'grey',
-    score: 0,
-};
 var new_position = 0;
-var current_player = player_grey;
+var current_player = playerGrey;
 var id = 'path_0';
 var score = parseInt(
     document.getElementById('player_' + current_player.color + '_score')
@@ -145,8 +93,6 @@ var dice_box = document.getElementById('dice');
 var roll_val;
 var dice_rolled = false;
 var oldPos;
-
-current_player.active_token = current_player.tokens[0];
 
 //Event Listener callbacks
 
@@ -331,9 +277,9 @@ function add_score() {
 
 function changeTurn() {
     if (current_player.color === 'grey') {
-        current_player = player_white;
+        current_player = playerWhite;
     } else if (current_player.color === 'white') {
-        current_player = player_grey;
+        current_player = playerGrey;
     }
     setTurnIndicator();
 
@@ -360,16 +306,16 @@ function resetOccupationStatuses(newPos, oldPos) {
 //Event Listener Initialization functions
 
 function tokenInit() {
-    for (let i = 0; i < player_grey.tokens.length; i++) {
-        player_grey.tokens[i].addEventListener('click', set_active_token);
-        player_white.tokens[i].addEventListener('click', set_active_token);
+    for (let i = 0; i < playerGrey.tokens.length; i++) {
+        playerGrey.tokens[i].addEventListener('click', set_active_token);
+        playerWhite.tokens[i].addEventListener('click', set_active_token);
     }
 }
 
 function pathInit() {
-    for (let i = 1; i < player_grey.path.length; i++) {
-        player_grey.path[i].addEventListener('click', move_active_token);
-        player_white.path[i].addEventListener('click', move_active_token);
+    for (let i = 1; i < playerGrey.path.length; i++) {
+        playerGrey.path[i].addEventListener('click', move_active_token);
+        playerWhite.path[i].addEventListener('click', move_active_token);
     }
 }
 
