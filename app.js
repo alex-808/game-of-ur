@@ -27,8 +27,6 @@ class Player {
 const playerGrey = new Player('grey');
 const playerWhite = new Player('white');
 
-console.log(playerGrey);
-
 const gameState = {
     currentPlayer: 1,
 };
@@ -49,7 +47,6 @@ const dice = {
     },
 };
 
-var new_position = 0;
 var current_player = playerGrey;
 var id = 'path_0';
 var score = parseInt(
@@ -59,109 +56,94 @@ var score = parseInt(
 var dice_box = document.getElementById('dice');
 var roll_val;
 var dice_rolled = false;
-var oldPos;
+var currentPosIndex;
+var newPosIndex = 0;
+var currentTile;
+var newTile;
 
 //Event Listener callbacks
 
-function set_active_token() {
+function highlightPossibleMove() {
     if (dice_rolled === true && current_player.tokens.includes(this)) {
         current_player.active_token = this;
-        oldPos = this.parentElement;
+        currentPosIndex = current_player.path.indexOf(this.parentElement);
+        newPosIndex = currentPosIndex + roll_val;
+        currentTile = current_player.path[currentPosIndex];
+        newTile = current_player.path[newPosIndex];
+    } else return;
+    // check for no moves, should be put in a new function
+    const immoveableTokens = countMoveableTokens();
 
-        // check for no moves, should be put in a new function
-        let no_move_counter = 0;
+    if (immoveableTokens === 7) {
+        console.log('switch turn due to no moves');
+        changeTurn();
+        return;
+    }
 
-        for (let i = 0; i < current_player.tokens.length; i++) {
-            var new_position_element =
-                current_player.path[
-                    current_player.path.indexOf(
-                        current_player.tokens[i].parentElement
-                    ) + roll_val
-                ];
+    if (
+        current_player.path[newPosIndex].classList.contains(
+            current_player.color + '_occupied'
+        )
+    ) {
+        console.log('no move, space occupied');
 
-            if (current_player.tokens[i].parentElement === null) {
-                no_move_counter += 1;
-                console.log('scored-point-no-move:', no_move_counter);
-            } else if (
-                current_player.path.indexOf(new_position_element) === -1
-            ) {
-                no_move_counter += 1;
-                console.log('no-path-no-move', no_move_counter);
-            }
-            //This is where the money is, this stuff is what we need
-            else if (current_player.path.indexOf(new_position_element) !== -1) {
-                if (
-                    new_position_element.classList.contains(
-                        current_player.color + '_occupied'
-                    )
-                ) {
-                    no_move_counter += 1;
-                    console.log('space-occupied-no-move:', no_move_counter);
-                }
-            }
-            //console.log(no_move_counter);
-        }
-        console.log(no_move_counter);
+        return;
+    }
 
-        if (no_move_counter === 7) {
-            console.log('switch turn due to no moves');
-            new_position = 0;
+    if (newPosIndex < 15 && newPosIndex > 0) {
+        currentTile.classList.remove('active_space');
 
-            changeTurn();
+        newTile.classList.add('active_space');
+    }
+}
 
-            dice_rolled = false;
-            return;
-        }
+function countMoveableTokens() {
+    let no_move_counter = 0;
 
-        if (
-            current_player.path.indexOf(
-                current_player.active_token.parentElement
-            ) +
-                roll_val <
-                15 &&
-            current_player.path.indexOf(
-                current_player.active_token.parentElement
-            ) +
-                roll_val >
-                0
-        ) {
-            current_player.path[new_position].classList.remove('active_space');
-
-            new_position =
+    for (let i = 0; i < current_player.tokens.length; i++) {
+        var newPosIndex_element =
+            current_player.path[
                 current_player.path.indexOf(
-                    current_player.active_token.parentElement
-                ) + roll_val;
+                    current_player.tokens[i].parentElement
+                ) + roll_val
+            ];
 
+        if (current_player.tokens[i].parentElement === null) {
+            no_move_counter += 1;
+            console.log('scored-point-no-move:', no_move_counter);
+        } else if (current_player.path.indexOf(newPosIndex_element) === -1) {
+            no_move_counter += 1;
+            console.log('no-path-no-move', no_move_counter);
+        }
+        //This is where the money is, this stuff is what we need
+        else if (current_player.path.indexOf(newPosIndex_element) !== -1) {
             if (
-                current_player.path[new_position].classList.contains(
+                newPosIndex_element.classList.contains(
                     current_player.color + '_occupied'
                 )
             ) {
-                console.log('no move');
+                no_move_counter += 1;
+                console.log('space-occupied-no-move:', no_move_counter);
             }
-            current_player.path[new_position].classList.add('active_space');
-        } else {
-            console.log('no move');
         }
-    } else {
-        console.log('no move');
+        return no_move_counter;
     }
 }
 
 function move_active_token() {
-    let el = current_player.path[new_position];
+    let el = current_player.path[newPosIndex];
 
     if (el !== event.target) return; // makes sure the player clicks on intended square
 
-    if (new_position < 5 || new_position > 11) {
-        id = current_player.color + '_path_' + new_position;
+    if (newPosIndex < 5 || newPosIndex > 11) {
+        id = current_player.color + '_path_' + newPosIndex;
     } else {
         //console.log("5-11");
-        id = 'path_' + new_position;
+        id = 'path_' + newPosIndex;
     }
     // check if new position is occupied by you
     if (
-        current_player.path[new_position].classList.contains(
+        current_player.path[newPosIndex].classList.contains(
             current_player.color + '_occupied'
         )
     ) {
@@ -169,37 +151,24 @@ function move_active_token() {
     } else {
         // check if new position is occupied by opponent
         if (
-            current_player.path[new_position].classList.contains(
+            current_player.path[newPosIndex].classList.contains(
                 current_player.opposite + '_occupied'
             )
         ) {
             console.log('capture');
-            // remove opponent token
-            document
-                .getElementById(current_player.opposite + '_path_0')
-                .appendChild(
-                    current_player.path[new_position].firstElementChild
-                );
-
-            current_player.path[new_position].classList.remove(
-                current_player.opposite + '_occupied'
-            );
-            // set tile's class you occupied by you
-            current_player.path[new_position].classList.add(
-                current_player.color + '_occupied'
-            );
+            captureTile();
         }
         // move your token to the location
         document.getElementById(id).appendChild(current_player.active_token);
 
-        current_player.path[new_position].classList.remove('active_space');
-        resetOccupationStatuses(current_player.path[new_position], oldPos);
+        current_player.path[newPosIndex].classList.remove('active_space');
+        resetOccupationStatuses(newPosIndex, currentPosIndex);
 
         add_score();
         // check if player landed on a rosette
-        if (new_position === 4 || new_position === 8 || new_position === 13) {
+        if (newPosIndex === 4 || newPosIndex === 8 || newPosIndex === 13) {
             console.log('rosette');
-            new_position = 0;
+            newPosIndex = 0;
             dice_rolled = false;
             document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
             document
@@ -211,7 +180,7 @@ function move_active_token() {
             // reset new position value
             // this needs to be fixed, we are adding event listeners every turn change
         } else {
-            new_position = 0;
+            newPosIndex = 0;
 
             changeTurn();
             dice_rolled = false;
@@ -219,8 +188,23 @@ function move_active_token() {
     }
 }
 
+function captureTile() {
+    // remove opponent token
+    document
+        .getElementById(current_player.opposite + '_path_0')
+        .appendChild(current_player.path[newPosIndex].firstElementChild);
+
+    current_player.path[newPosIndex].classList.remove(
+        current_player.opposite + '_occupied'
+    );
+    // set tile's class you occupied by you
+    current_player.path[newPosIndex].classList.add(
+        current_player.color + '_occupied'
+    );
+}
+
 function add_score() {
-    if (new_position === 14) {
+    if (newPosIndex === 14) {
         current_player.score++;
         document.getElementById(
             'player_' + current_player.color + '_score'
@@ -243,6 +227,8 @@ function add_score() {
 }
 
 function changeTurn() {
+    dice_rolled = false;
+    newPosIndex = 0;
     if (current_player.color === 'grey') {
         current_player = playerWhite;
     } else if (current_player.color === 'white') {
@@ -260,22 +246,22 @@ function setTurnIndicator() {
         .classList.add('active_player');
 
     document
-        .querySelector('#active_player_' + current_player.opposite)
+        .querySelector(`#active_player_${current_player.opposite}`)
         .classList.remove('active_player');
 }
 
-function resetOccupationStatuses(newPos, oldPos) {
+function resetOccupationStatuses(newPosIndex, currentPosIndex) {
     const occupationClass = current_player.color + '_occupied';
-    newPos.classList.add(occupationClass);
-    oldPos.classList.remove(occupationClass);
+    current_player.path[newPosIndex].classList.add(occupationClass);
+    current_player.path[currentPosIndex].classList.remove(occupationClass);
 }
 
 //Event Listener Initialization functions
 
 function tokenInit() {
     for (let i = 0; i < playerGrey.tokens.length; i++) {
-        playerGrey.tokens[i].addEventListener('click', set_active_token);
-        playerWhite.tokens[i].addEventListener('click', set_active_token);
+        playerGrey.tokens[i].addEventListener('click', highlightPossibleMove);
+        playerWhite.tokens[i].addEventListener('click', highlightPossibleMove);
     }
 }
 
