@@ -49,10 +49,7 @@ const dice = {
 
 var current_player = playerGrey;
 var id = 'path_0';
-var score = parseInt(
-    document.getElementById('player_' + current_player.color + '_score')
-        .innerHTML
-);
+
 var dice_box = document.getElementById('dice');
 var roll_val;
 var dice_rolled = false;
@@ -64,6 +61,8 @@ var newTile;
 //Event Listener callbacks
 
 function highlightPossibleMove() {
+    document.querySelector('.active_space')?.classList.remove('active_space');
+
     if (dice_rolled === true && current_player.tokens.includes(this)) {
         current_player.active_token = this;
         currentPosIndex = current_player.path.indexOf(this.parentElement);
@@ -79,20 +78,12 @@ function highlightPossibleMove() {
         changeTurn();
         return;
     }
-
-    if (
-        current_player.path[newPosIndex].classList.contains(
-            current_player.color + '_occupied'
-        )
-    ) {
+    if (newTile.classList.contains(current_player.color + '_occupied')) {
         console.log('no move, space occupied');
-
         return;
     }
-
     if (newPosIndex < 15 && newPosIndex > 0) {
         currentTile.classList.remove('active_space');
-
         newTile.classList.add('active_space');
     }
 }
@@ -175,15 +166,8 @@ function move_active_token() {
                 .getElementById('roll_indicator')
                 .classList.remove('invisible');
             // check if player has won
-        } else if (current_player.score === 7) {
-            end_game();
-            // reset new position value
-            // this needs to be fixed, we are adding event listeners every turn change
         } else {
-            newPosIndex = 0;
-
             changeTurn();
-            dice_rolled = false;
         }
     }
 }
@@ -219,9 +203,7 @@ function add_score() {
         removeElement(current_player.active_token.id);
         console.log('scored!', current_player.score);
         if (current_player.score === 7) {
-            document.getElementById(
-                'player_' + current_player.color + '_score'
-            ).innerHTML = 'Winner!';
+            end_game();
         }
     }
 }
@@ -304,6 +286,9 @@ function rollDice() {
 }
 
 function end_game() {
+    document.getElementById(
+        'player_' + current_player.color + '_score'
+    ).innerHTML = 'Winner!';
     dice_rolled = true;
     document.getElementById('die_1').innerHTML = ' ';
     document.getElementById('die_2').innerHTML = ' ';
