@@ -48,8 +48,6 @@ const dice = {
 };
 
 var current_player = playerGrey;
-var id = 'path_0';
-
 var dice_box = document.getElementById('dice');
 var roll_val;
 var dice_rolled = false;
@@ -70,13 +68,7 @@ function highlightPossibleMove() {
         newTile = current_player.path[newPosIndex];
     } else return;
     // check for no moves, should be put in a new function
-    const immoveableTokens = countMoveableTokens();
 
-    if (immoveableTokens === 7) {
-        console.log('switch turn due to no moves');
-        changeTurn();
-        return;
-    }
     if (newTile.classList.contains(current_player.color + '_occupied')) {
         console.log('no move, space occupied');
         return;
@@ -86,7 +78,7 @@ function highlightPossibleMove() {
     }
 }
 
-function countMoveableTokens() {
+function countImmoveableTokens() {
     let no_move_counter = 0;
 
     for (let i = 0; i < current_player.tokens.length; i++) {
@@ -96,27 +88,27 @@ function countMoveableTokens() {
                     current_player.tokens[i].parentElement
                 ) + roll_val
             ];
-
+        // check if token has been removed
         if (current_player.tokens[i].parentElement === null) {
             no_move_counter += 1;
             console.log('scored-point-no-move:', no_move_counter);
+            // check if path of new index exists
         } else if (current_player.path.indexOf(newPosIndex_element) === -1) {
             no_move_counter += 1;
             console.log('no-path-no-move', no_move_counter);
         }
-        //This is where the money is, this stuff is what we need
-        else if (current_player.path.indexOf(newPosIndex_element) !== -1) {
-            if (
-                newPosIndex_element.classList.contains(
-                    current_player.color + '_occupied'
-                )
-            ) {
-                no_move_counter += 1;
-                console.log('space-occupied-no-move:', no_move_counter);
-            }
+        //check if path of new index is already occuped
+        else if (
+            newPosIndex_element.classList.contains(
+                current_player.color + '_occupied'
+            )
+        ) {
+            no_move_counter += 1;
+            console.log('space-occupied-no-move:', no_move_counter);
         }
-        return no_move_counter;
     }
+    console.log(no_move_counter);
+    return no_move_counter;
 }
 
 function move_active_token() {
@@ -145,14 +137,17 @@ function move_active_token() {
     // check if player landed on a rosette
     if (rosetteIndices.includes(newPosIndex)) {
         console.log('rosette');
-        newPosIndex = 0;
-        dice_rolled = false;
-        document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
-        document.getElementById('roll_indicator').classList.remove('invisible');
-        // check if player has won
+        allowReroll();
     } else {
         changeTurn();
     }
+}
+
+function allowReroll() {
+    newPosIndex = 0;
+    dice_rolled = false;
+    document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
+    document.getElementById('roll_indicator').classList.remove('invisible');
 }
 
 function captureTile() {
@@ -176,6 +171,9 @@ function add_score() {
         document.getElementById(
             'player_' + current_player.color + '_score'
         ).innerHTML = current_player.score;
+        current_player.path[newPosIndex].classList.remove(
+            `${current_player.color}_occupied`
+        );
 
         function removeElement(elementId) {
             // Removes an element from the document
@@ -248,8 +246,8 @@ function rollDice() {
         // console.log(dice.dieElement1);
 
         dice_rolled = true;
-        if (roll_val === 0) {
-            dice_rolled = false;
+
+        if (roll_val === 0 || countImmoveableTokens() === 7) {
             changeTurn();
             // console.log(current_player);
             return;
