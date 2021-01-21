@@ -55,8 +55,8 @@ var roll_val;
 var dice_rolled = false;
 var currentPosIndex;
 var newPosIndex = 0;
-var currentTile;
 var newTile;
+var rosetteIndices = [4, 8, 13];
 
 //Event Listener callbacks
 
@@ -67,7 +67,6 @@ function highlightPossibleMove() {
         current_player.active_token = this;
         currentPosIndex = current_player.path.indexOf(this.parentElement);
         newPosIndex = currentPosIndex + roll_val;
-        currentTile = current_player.path[currentPosIndex];
         newTile = current_player.path[newPosIndex];
     } else return;
     // check for no moves, should be put in a new function
@@ -83,7 +82,6 @@ function highlightPossibleMove() {
         return;
     }
     if (newPosIndex < 15 && newPosIndex > 0) {
-        currentTile.classList.remove('active_space');
         newTile.classList.add('active_space');
     }
 }
@@ -126,49 +124,34 @@ function move_active_token() {
 
     if (el !== event.target) return; // makes sure the player clicks on intended square
 
-    if (newPosIndex < 5 || newPosIndex > 11) {
-        id = current_player.color + '_path_' + newPosIndex;
-    } else {
-        //console.log("5-11");
-        id = 'path_' + newPosIndex;
-    }
-    // check if new position is occupied by you
+    // check if new position is occupied by opponent
     if (
         current_player.path[newPosIndex].classList.contains(
-            current_player.color + '_occupied'
+            current_player.opposite + '_occupied'
         )
     ) {
-        console.log('no move');
+        console.log('capture');
+        captureTile();
+    }
+    // move your token to the location
+    document
+        .querySelector('.active_space')
+        .appendChild(current_player.active_token);
+
+    current_player.path[newPosIndex].classList.remove('active_space');
+    resetOccupationStatuses(newPosIndex, currentPosIndex);
+
+    add_score();
+    // check if player landed on a rosette
+    if (rosetteIndices.includes(newPosIndex)) {
+        console.log('rosette');
+        newPosIndex = 0;
+        dice_rolled = false;
+        document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
+        document.getElementById('roll_indicator').classList.remove('invisible');
+        // check if player has won
     } else {
-        // check if new position is occupied by opponent
-        if (
-            current_player.path[newPosIndex].classList.contains(
-                current_player.opposite + '_occupied'
-            )
-        ) {
-            console.log('capture');
-            captureTile();
-        }
-        // move your token to the location
-        document.getElementById(id).appendChild(current_player.active_token);
-
-        current_player.path[newPosIndex].classList.remove('active_space');
-        resetOccupationStatuses(newPosIndex, currentPosIndex);
-
-        add_score();
-        // check if player landed on a rosette
-        if (newPosIndex === 4 || newPosIndex === 8 || newPosIndex === 13) {
-            console.log('rosette');
-            newPosIndex = 0;
-            dice_rolled = false;
-            document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
-            document
-                .getElementById('roll_indicator')
-                .classList.remove('invisible');
-            // check if player has won
-        } else {
-            changeTurn();
-        }
+        changeTurn();
     }
 }
 
@@ -240,21 +223,15 @@ function resetOccupationStatuses(newPosIndex, currentPosIndex) {
 
 //Event Listener Initialization functions
 
-function tokenInit() {
+function eventListenersInit() {
     for (let i = 0; i < playerGrey.tokens.length; i++) {
         playerGrey.tokens[i].addEventListener('click', highlightPossibleMove);
         playerWhite.tokens[i].addEventListener('click', highlightPossibleMove);
     }
-}
-
-function pathInit() {
     for (let i = 1; i < playerGrey.path.length; i++) {
         playerGrey.path[i].addEventListener('click', move_active_token);
         playerWhite.path[i].addEventListener('click', move_active_token);
     }
-}
-
-function diceBoxInit() {
     dice_box.addEventListener('click', rollDice);
 }
 
@@ -296,8 +273,5 @@ function end_game() {
     document.getElementById('roll_indicator').innerHTML = 'Game Over';
 }
 
-tokenInit();
-pathInit();
-diceBoxInit();
-
+eventListenersInit();
 setTurnIndicator();
