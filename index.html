@@ -1,13 +1,18 @@
 <head>
     <title>Royal Game of Ur</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Euphoria+Script"
+    />
     <link href="./styles/style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="background">
+    <div class="background">
+        <h1>The Game of Ur</h1>
+
         <div class="play_space">
-            <h1>The Game of Ur</h1>
             <div class="player_grey_score">
                 <div id="active_player_grey"></div>
                 Score:
@@ -19,7 +24,7 @@
                 <div class="die_number" id="die_2"></div>
                 <img class="die" src="img/noun_Tetrahedron_6892.png" />
             </div>
-            <div id="roll_indicator">Roll!</div>
+            <div class="roll_indicator">Roll!</div>
 
             <div class="grey player-tokens" id="grey_path_0">
                 <div class="token-1" id="grey_1"></div>
@@ -31,89 +36,56 @@
                 <div class="token-1" id="grey_7"></div>
             </div>
 
-            <div id="tile_container">
-                <div class="column">
-                    <div class="grey tile_area rosette" id="grey_path_4"></div>
-                    <div
-                        class="grey tile_area tile_style_1"
-                        id="grey_path_3"
-                    ></div>
-                    <div
-                        class="grey tile_area tile_style_2"
-                        id="grey_path_2"
-                    ></div>
-                    <div
-                        class="grey tile_area tile_style_1"
-                        id="grey_path_1"
-                    ></div>
+            <div class="tiles_container">
+                <div class="tile_column">
+                    <div class="grey tile rosette" id="grey_path_4"></div>
+                    <div class="grey tile tile_style_1" id="grey_path_3"></div>
+                    <div class="grey tile tile_style_2" id="grey_path_2"></div>
+                    <div class="grey tile tile_style_1" id="grey_path_1"></div>
 
-                    <div
-                        class="grey score_space tile_area"
-                        id="grey_path_14"
-                    ></div>
+                    <div class="grey score_space tile" id="grey_path_14"></div>
 
-                    <div class="grey tile_area rosette" id="grey_path_13"></div>
-                    <div
-                        class="grey tile_area tile_style_1"
-                        id="grey_path_12"
-                    ></div>
+                    <div class="grey tile rosette" id="grey_path_13"></div>
+                    <div class="grey tile tile_style_1" id="grey_path_12"></div>
                 </div>
-                <div class="column">
+                <div class="tile_column">
+                    <div class="white grey tile tile_style_1" id="path_5"></div>
+                    <div class="white grey tile tile_style_2" id="path_6"></div>
+                    <div class="white grey tile tile_style_1" id="path_7"></div>
+                    <div class="white grey tile rosette" id="path_8"></div>
+                    <div class="white grey tile tile_style_2" id="path_9"></div>
                     <div
-                        class="white grey tile_area tile_style_1"
-                        id="path_5"
-                    ></div>
-                    <div
-                        class="white grey tile_area tile_style_2"
-                        id="path_6"
-                    ></div>
-                    <div
-                        class="white grey tile_area tile_style_1"
-                        id="path_7"
-                    ></div>
-                    <div class="white grey tile_area rosette" id="path_8"></div>
-                    <div
-                        class="white grey tile_area tile_style_2"
-                        id="path_9"
-                    ></div>
-                    <div
-                        class="white grey tile_area tile_style_1"
+                        class="white grey tile tile_style_1"
                         id="path_10"
                     ></div>
                     <div
-                        class="white grey tile_area tile_style_2"
+                        class="white grey tile tile_style_2"
                         id="path_11"
                     ></div>
                 </div>
-                <div class="column">
+                <div class="tile_column">
+                    <div class="white tile rosette" id="white_path_4"></div>
                     <div
-                        class="white tile_area rosette"
-                        id="white_path_4"
-                    ></div>
-                    <div
-                        class="white tile_area tile_style_1"
+                        class="white tile tile_style_1"
                         id="white_path_3"
                     ></div>
                     <div
-                        class="white tile_area tile_style_2"
+                        class="white tile tile_style_2"
                         id="white_path_2"
                     ></div>
                     <div
-                        class="white tile_area tile_style_1"
+                        class="white tile tile_style_1"
                         id="white_path_1"
                     ></div>
 
                     <div
-                        class="white score_space tile_area"
+                        class="white score_space tile"
                         id="white_path_14"
                     ></div>
 
+                    <div class="white tile rosette" id="white_path_13"></div>
                     <div
-                        class="white tile_area rosette"
-                        id="white_path_13"
-                    ></div>
-                    <div
-                        class="white tile_area tile_style_1"
+                        class="white tile tile_style_1"
                         id="white_path_12"
                     ></div>
                 </div>

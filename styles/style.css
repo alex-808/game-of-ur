@@ -1,9 +1,6 @@
 h1 {
-  text-align: center;
-  height: 0;
-  text-shadow: 5px 10px 5px #000000;
-  color: #1557b1;
-  font-family: Trebuchet MS;
+  color: black;
+  font-family: "Share Tech Mono";
   position: absolute;
   font-size: 3vw;
   top: 0.5%;
@@ -16,16 +13,13 @@ body {
 }
 
 html {
-  margin: 0px;
+  margin: 0;
   height: 100%;
-  overflow: auto;
 }
 
-#background {
-  width: 100%;
+.background {
+  background: #9d695a;
   height: 100%;
-  background-image: url(img/woodtile.jpg);
-  background-size: contain;
 }
 
 .play_space {
@@ -43,10 +37,9 @@ html {
       -ms-flex-pack: center;
           justify-content: center;
   height: 100%;
-  width: 100%;
 }
 
-#tile_container {
+.tiles_container {
   height: 90vh;
   width: 30vh;
   margin-left: 100px;
@@ -70,7 +63,7 @@ html {
   bottom: -5%;
 }
 
-.column {
+.tile_column {
   width: 100%;
   height: 100%;
   padding-top: 0;
@@ -105,73 +98,31 @@ html {
       align-content: center;
 }
 
-.tile_area {
+.tile {
   width: 90%;
   height: 10%;
   margin: 5px;
-  background-size: 300%;
-  background-attachment: local;
   border-radius: 20%;
   -webkit-box-shadow: 10px 10px 10px;
           box-shadow: 10px 10px 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .tile_style_1 {
-  background-image: url(img/vert_wood.jpg);
-  background-color: #78e0dc;
+  background: #78e0dc;
 }
 
 .tile_style_2 {
-  background-image: url(img/white_tile_cropped.jpg);
-  background-color: #d496a7;
+  background: #d496a7;
 }
 
 .rosette {
-  width: 90%;
-  height: 10%;
-  margin: 5px;
-  background-image: url(img/milky-way.jpg);
-  background-color: #9d695a;
-  background-attachment: local;
-  background-position: 48% 55%;
-  background-repeat: no-repeat;
-  background-attachment: local;
-  border-radius: 20%;
-  -webkit-box-shadow: 10px 10px 10px;
-          box-shadow: 10px 10px 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  background: #ffd166;
 }
 
 .token-1 {
   width: 80%;
   padding-top: 80%;
-  background-image: url(img/stone.jpg);
-  background-attachment: local;
+  background: #ffffff;
   border-radius: 100px;
   position: relative;
   -webkit-box-shadow: 10px 10px 5px;
@@ -182,7 +133,7 @@ html {
 .token-2 {
   width: 80%;
   padding-top: 80%;
-  background-image: url(img/stone2.jpg);
+  background: #302f31;
   border-radius: 100px;
   position: relative;
   -webkit-box-shadow: 10px 10px 5px;
@@ -200,7 +151,7 @@ html {
   width: 12%;
   height: 17%;
   margin: 10px;
-  background-image: url(img/paper.jpg);
+  background: #78e0dc;
   border-radius: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -248,59 +199,15 @@ html {
   margin-right: 5%;
 }
 
-/* .grey_occupied {
-    width: 90%;
-    height: 10%;
-
-    margin: 5px;
-    background-image: url(img/star.jpg);
-
-    background-attachment: fixed;
-    border-radius: 20%;
-    box-shadow: 10px 10px 10px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-}
-
-.white_occupied {
-    width: 90%;
-    height: 10%;
-
-    margin: 5px;
-    background-image: url(img/star.jpg);
-
-    background-attachment: fixed;
-    border-radius: 20%;
-    box-shadow: 10px 10px 10px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-} */
 .active_space {
   width: 90%;
   height: 10%;
   margin: 5px;
-  background-image: url(img/rosette1.jpg);
+  background: white;
   background-attachment: fixed;
   border-radius: 20%;
   -webkit-box-shadow: 10px 10px 10px;
           box-shadow: 10px 10px 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .player_grey_score {
@@ -308,16 +215,8 @@ html {
   position: absolute;
   left: 5%;
   bottom: 5%;
-  font-family: trebuchet ms;
-  color: #ccbdb6;
+  font-family: "Share Tech Mono";
   border-radius: 35px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
 }
 
 .player_white_score {
@@ -325,8 +224,7 @@ html {
   position: absolute;
   right: 5%;
   bottom: 5%;
-  font-family: trebuchet ms;
-  color: #9b9dba;
+  font-family: "Share Tech Mono";
   border-radius: 35px;
 }
 
@@ -334,9 +232,6 @@ html {
   text-align: center;
   width: 30%;
   padding-top: 30%;
-  background-image: url(img/milky-way.jpg);
-  background-attachment: fixed;
-  background-repeat: repeat;
   border-radius: 100px;
   position: absolute;
   top: -50%;
@@ -346,11 +241,11 @@ html {
   margin: 5px;
 }
 
-#roll_indicator {
+.roll_indicator {
   position: absolute;
   right: 86%;
   top: 38%;
-  font-family: trebuchet ms;
+  font-family: "Euphoria Script";
   font-size: 40px;
   color: beige;
 }
