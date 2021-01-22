@@ -124,6 +124,7 @@ function moveToTile() {
     current_player.path[newPosIndex].classList.remove('active_space');
     resetOccupationStatuses(newPosIndex, currentPosIndex);
     addScore();
+    document.querySelector('.dice-imgs').classList.add('invisible');
     // check if player landed on a rosette
     if (rosetteIndices.includes(newPosIndex)) {
         console.log('rosette');
@@ -136,8 +137,8 @@ function moveToTile() {
 function allowReroll() {
     newPosIndex = 0;
     dice.rolled = false;
-    document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
-    document.getElementById('roll_indicator').classList.remove('invisible');
+    document.querySelector('.roll-indicator').innerHTML = 'Roll Again!';
+    document.querySelector('.roll-indicator').classList.remove('invisible');
 }
 
 function captureTile() {
@@ -187,7 +188,7 @@ function changeTurn() {
     }
     setTurnIndicator();
 
-    document.querySelector('.roll_indicator').classList.remove('invisible');
+    document.querySelector('.roll-indicator').classList.remove('invisible');
 }
 
 function setTurnIndicator() {
@@ -224,8 +225,8 @@ function eventListenersInit() {
 
 function rollDice() {
     if (dice.rolled === false) {
-        document.querySelector('.roll_indicator').innerHTML = 'Roll!';
-
+        document.querySelector('.roll-indicator').innerHTML = 'Roll!';
+        document.querySelector('.dice-imgs').classList.remove('invisible');
         dice.rollVal = dice.calcRollVal();
         dice.updateUI();
         dice.rolled = true;
@@ -234,7 +235,7 @@ function rollDice() {
             changeTurn();
             return;
         }
-        document.querySelector('.roll_indicator').classList.add('invisible');
+        document.querySelector('.roll-indicator').classList.add('invisible');
     }
 }
 
@@ -245,8 +246,8 @@ function endGame() {
     dice.rolled = true;
     document.getElementById('die_1').innerHTML = ' ';
     document.getElementById('die_2').innerHTML = ' ';
-    document.getElementById('roll_indicator').classList.remove('invisible');
-    document.getElementById('roll_indicator').innerHTML = 'Game Over';
+    document.querySelector('.roll-indicator').classList.remove('invisible');
+    document.querySelector('.roll-indicator').innerHTML = 'Game Over';
 }
 
 eventListenersInit();

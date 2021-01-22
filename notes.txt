@@ -1,7 +1,2 @@
--center dice div
 -make board responsive
-
-
-
-- I would like to do a restyle. I sort of like the way it is minus the performance/loading issues. It just looks sort of bleh to look at. It has a nice feel to it in its kind of worn woodiness but I think certain elements just really clash with that vibe. The score fonts, the title font, the milkyway rosette tiles, the grey pieces look like a different shape from the white pieces, the tile style 1 and 2 look a little too in compatible. Idk, I like the feel of it but I feel like this may be sort of difficult to tweak back into shape and might require a redesign. I think the layout is fine though. 
 
