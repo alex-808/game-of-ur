@@ -187,7 +187,7 @@ function changeTurn() {
     }
     setTurnIndicator();
 
-    document.getElementById('roll_indicator').classList.remove('invisible');
+    document.querySelector('.roll_indicator').classList.remove('invisible');
 }
 
 function setTurnIndicator() {
@@ -224,7 +224,7 @@ function eventListenersInit() {
 
 function rollDice() {
     if (dice.rolled === false) {
-        document.getElementById('roll_indicator').innerHTML = 'Roll!';
+        document.querySelector('.roll_indicator').innerHTML = 'Roll!';
 
         dice.rollVal = dice.calcRollVal();
         dice.updateUI();
@@ -234,7 +234,7 @@ function rollDice() {
             changeTurn();
             return;
         }
-        document.getElementById('roll_indicator').classList.add('invisible');
+        document.querySelector('.roll_indicator').classList.add('invisible');
     }
 }
 

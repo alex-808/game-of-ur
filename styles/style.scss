@@ -35,7 +35,7 @@ html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     height: 100%;
 }
 
@@ -65,19 +65,34 @@ html {
 
 .player-tokens {
     width: 10vh;
+    // margin: 0;
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
 }
 
+.left {
+    .grey {
+        left: 25vw;
+        top: 20vh;
+    }
+}
+
+.right {
+    .white {
+        right: 25vw;
+        top: 20vh;
+    }
+}
+
 .tile {
     width: 90%;
     height: 10%;
-
     margin: 5px;
     border-radius: 20%;
-    box-shadow: 10px 10px 10px;
+    filter: drop-shadow(13px 11px 1px rgba(0, 0, 0, 0.25));
 }
 
 .tile_style_1 {
@@ -90,26 +105,25 @@ html {
 
 .rosette {
     background: $tileColor3;
+    border-radius: 0%;
+    filter: drop-shadow(7px 5px 1px rgba(0, 0, 0, 0.25));
 }
 
-.token-1 {
+.token {
     width: 80%;
     padding-top: 80%;
+    border-radius: 100px;
+    position: relative;
+    filter: drop-shadow(6px 4px 0px rgba(0, 0, 0, 0.25));
+    margin: 5px;
+}
+
+.token-style-1 {
     background: $player1Color;
-    border-radius: 100px;
-    position: relative;
-    box-shadow: 10px 10px 5px;
-    margin: 5px;
 }
 
-.token-2 {
-    width: 80%;
-    padding-top: 80%;
+.token-style-2 {
     background: $player2Color;
-    border-radius: 100px;
-    position: relative;
-    box-shadow: 10px 10px 5px;
-    margin: 5px;
 }
 
 .score_space {
@@ -118,28 +132,24 @@ html {
 }
 
 .dice {
-    width: 12%;
-    height: 17%;
-    margin: 10px;
+    width: 10vh;
+    height: auto;
+    right: 82%;
+    top: 29%;
+    padding: 10vh;
     background: $tileColor1;
     border-radius: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    margin-right: auto;
-    margin-left: 5%;
-    box-shadow: 10px 11px 4px;
-    border-style: outset;
-    position: relative;
-    bottom: 150px;
+    position: absolute;
 }
 
 .dice:active {
     transform: translateY(4px);
 }
 
-.die {
+.die-img {
     width: 45%;
     opacity: 100%;
 }
@@ -152,23 +162,13 @@ html {
     width: 0;
 }
 
-.placeholder_right {
-    width: 12%;
-    height: 25%;
-    margin: 10px;
-    margin-left: auto;
-    margin-right: 5%;
-}
-
 .active_space {
     width: 90%;
     height: 10%;
-
     margin: 5px;
     background: white;
-    background-attachment: fixed;
     border-radius: 20%;
-    box-shadow: 10px 10px 10px;
+    // box-shadow: 10px 10px 10px;
 }
 
 .player_grey_score {
@@ -190,15 +190,14 @@ html {
 }
 
 .active_player {
-    text-align: center;
     width: 30%;
     padding-top: 30%;
     border-radius: 100px;
     position: absolute;
     top: -50%;
     right: 35%;
-    box-shadow: 10px 10px 5px black;
     margin: 5px;
+    background: white;
 }
 
 .roll_indicator {
@@ -207,7 +206,7 @@ html {
     top: 38%;
     font-family: $secondaryFont;
     font-size: 40px;
-    color: beige;
+    color: black;
 }
 
 .invisible {
