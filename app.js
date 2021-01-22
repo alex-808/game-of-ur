@@ -1,7 +1,3 @@
-//no move counter currently over-counting
-//I believe this is due to each token going through each "if" statement instead of just one
-//this should be fixed if I change them to else if statements
-
 import { greyPathArr, whitePathArr } from './modules/playerPaths.js';
 
 class Player {
@@ -11,10 +7,10 @@ class Player {
         this.tokens = [];
         if (color === 'grey') {
             this.path = greyPathArr;
-            this.opposite = 'white';
+            this.opponent = 'white';
         } else {
             this.path = this.path = whitePathArr;
-            this.opposite = 'grey';
+            this.opponent = 'grey';
         }
 
         for (let i = 1; i < 8; i++) {
@@ -27,10 +23,6 @@ class Player {
 const playerGrey = new Player('grey');
 const playerWhite = new Player('white');
 
-const gameState = {
-    currentPlayer: 1,
-};
-
 const dice = {
     domEl: document.getElementById('dice'),
     diceVal1: 0,
@@ -40,6 +32,8 @@ const dice = {
     dieElement1: document.getElementById('die_1'),
     dieElement2: document.getElementById('die_2'),
     calcRollVal() {
+        this.diceVal1 = Math.round(Math.random() * 2);
+        this.diceVal2 = Math.round(Math.random() * 2);
         return this.diceVal1 + this.diceVal2;
     },
     updateUI() {
@@ -47,11 +41,11 @@ const dice = {
         this.dieElement2.innerHTML = this.diceVal2;
     },
 };
-var current_player = playerGrey;
-var currentPosIndex;
-var newPosIndex = 0;
-var newTile;
-var rosetteIndices = [4, 8, 13];
+let current_player = playerGrey;
+let currentPosIndex;
+let newPosIndex = 0;
+let newTile;
+let rosetteIndices = [4, 8, 13];
 
 //Event Listener callbacks
 
@@ -81,7 +75,7 @@ function countImmoveableTokens() {
     let no_move_counter = 0;
 
     for (let i = 0; i < current_player.tokens.length; i++) {
-        var newPosIndex_element =
+        let newPosIndex_element =
             current_player.path[
                 current_player.path.indexOf(
                     current_player.tokens[i].parentElement
@@ -90,11 +84,9 @@ function countImmoveableTokens() {
         // check if token has been removed
         if (current_player.tokens[i].parentElement === null) {
             no_move_counter += 1;
-            console.log('scored-point-no-move:', no_move_counter);
             // check if path of new index exists
         } else if (current_player.path.indexOf(newPosIndex_element) === -1) {
             no_move_counter += 1;
-            console.log('no-path-no-move', no_move_counter);
         }
         //check if path of new index is already occuped
         else if (
@@ -103,25 +95,22 @@ function countImmoveableTokens() {
             )
         ) {
             no_move_counter += 1;
-            console.log('space-occupied-no-move:', no_move_counter);
         }
     }
     console.log(no_move_counter);
     return no_move_counter;
 }
 
-function move_active_token() {
+function moveToTile() {
     let el = current_player.path[newPosIndex];
-
     if (el !== event.target && event.target.parentElement !== el) {
         console.log('not event target');
         return; // makes sure the player clicks on intended square
     }
-
     // check if new position is occupied by opponent
     if (
         current_player.path[newPosIndex].classList.contains(
-            current_player.opposite + '_occupied'
+            current_player.opponent + '_occupied'
         )
     ) {
         console.log('capture');
@@ -134,8 +123,7 @@ function move_active_token() {
 
     current_player.path[newPosIndex].classList.remove('active_space');
     resetOccupationStatuses(newPosIndex, currentPosIndex);
-
-    add_score();
+    addScore();
     // check if player landed on a rosette
     if (rosetteIndices.includes(newPosIndex)) {
         console.log('rosette');
@@ -155,11 +143,11 @@ function allowReroll() {
 function captureTile() {
     // remove opponent token
     document
-        .getElementById(current_player.opposite + '_path_0')
+        .getElementById(current_player.opponent + '_path_0')
         .appendChild(current_player.path[newPosIndex].firstElementChild);
 
     current_player.path[newPosIndex].classList.remove(
-        current_player.opposite + '_occupied'
+        current_player.opponent + '_occupied'
     );
     // set tile's class you occupied by you
     current_player.path[newPosIndex].classList.add(
@@ -167,7 +155,7 @@ function captureTile() {
     );
 }
 
-function add_score() {
+function addScore() {
     if (newPosIndex === 14) {
         current_player.score++;
         document.getElementById(
@@ -177,18 +165,16 @@ function add_score() {
             `${current_player.color}_occupied`
         );
 
-        function removeElement(elementId) {
-            // Removes an element from the document
-            var element = document.getElementById(elementId);
-            element.parentNode.removeChild(element);
-        }
-
         removeElement(current_player.active_token.id);
-        console.log('scored!', current_player.score);
         if (current_player.score === 7) {
-            end_game();
+            endGame();
         }
     }
+}
+
+function removeElement(elementId) {
+    let element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
 }
 
 function changeTurn() {
@@ -205,13 +191,12 @@ function changeTurn() {
 }
 
 function setTurnIndicator() {
-    console.log();
     document
         .querySelector(`#active_player_${current_player.color}`)
         .classList.add('active_player');
 
     document
-        .querySelector(`#active_player_${current_player.opposite}`)
+        .querySelector(`#active_player_${current_player.opponent}`)
         .classList.remove('active_player');
 }
 
@@ -229,8 +214,8 @@ function eventListenersInit() {
         playerWhite.tokens[i].addEventListener('click', highlightPossibleMove);
     }
     for (let i = 1; i < playerGrey.path.length; i++) {
-        playerGrey.path[i].addEventListener('click', move_active_token);
-        playerWhite.path[i].addEventListener('click', move_active_token);
+        playerGrey.path[i].addEventListener('click', moveToTile);
+        playerWhite.path[i].addEventListener('click', moveToTile);
     }
     dice.domEl.addEventListener('click', rollDice);
 }
@@ -240,29 +225,20 @@ function eventListenersInit() {
 function rollDice() {
     if (dice.rolled === false) {
         document.getElementById('roll_indicator').innerHTML = 'Roll!';
-        dice.diceVal1 = Math.round(Math.random() * 2);
-        dice.diceVal2 = Math.round(Math.random() * 2);
 
         dice.rollVal = dice.calcRollVal();
         dice.updateUI();
-        // console.log(dice.dieElement1);
-
         dice.rolled = true;
 
         if (dice.rollVal === 0 || countImmoveableTokens() === 7) {
             changeTurn();
-            // console.log(current_player);
             return;
         }
         document.getElementById('roll_indicator').classList.add('invisible');
-
-        return dice.rollVal;
-    } else {
-        console.log('no!');
     }
 }
 
-function end_game() {
+function endGame() {
     document.getElementById(
         'player_' + current_player.color + '_score'
     ).innerHTML = 'Winner!';
