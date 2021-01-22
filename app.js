@@ -32,10 +32,11 @@ const gameState = {
 };
 
 const dice = {
+    domEl: document.getElementById('dice'),
     diceVal1: 0,
     diceVal2: 0,
     rollVal: 0,
-    canRoll: false,
+    rolled: false,
     dieElement1: document.getElementById('die_1'),
     dieElement2: document.getElementById('die_2'),
     calcRollVal() {
@@ -46,11 +47,7 @@ const dice = {
         this.dieElement2.innerHTML = this.diceVal2;
     },
 };
-
 var current_player = playerGrey;
-var dice_box = document.getElementById('dice');
-var roll_val;
-var dice_rolled = false;
 var currentPosIndex;
 var newPosIndex = 0;
 var newTile;
@@ -61,10 +58,10 @@ var rosetteIndices = [4, 8, 13];
 function highlightPossibleMove() {
     document.querySelector('.active_space')?.classList.remove('active_space');
 
-    if (dice_rolled === true && current_player.tokens.includes(this)) {
+    if (dice.rolled === true && current_player.tokens.includes(this)) {
         current_player.active_token = this;
         currentPosIndex = current_player.path.indexOf(this.parentElement);
-        newPosIndex = currentPosIndex + roll_val;
+        newPosIndex = currentPosIndex + dice.rollVal;
         newTile = current_player.path[newPosIndex];
     } else return;
     // check for no moves, should be put in a new function
@@ -86,7 +83,7 @@ function countImmoveableTokens() {
             current_player.path[
                 current_player.path.indexOf(
                     current_player.tokens[i].parentElement
-                ) + roll_val
+                ) + dice.rollVal
             ];
         // check if token has been removed
         if (current_player.tokens[i].parentElement === null) {
@@ -114,7 +111,10 @@ function countImmoveableTokens() {
 function move_active_token() {
     let el = current_player.path[newPosIndex];
 
-    if (el !== event.target) return; // makes sure the player clicks on intended square
+    if (el !== event.target && event.target.parentElement !== el) {
+        console.log('not event target');
+        return; // makes sure the player clicks on intended square
+    }
 
     // check if new position is occupied by opponent
     if (
@@ -145,7 +145,7 @@ function move_active_token() {
 
 function allowReroll() {
     newPosIndex = 0;
-    dice_rolled = false;
+    dice.rolled = false;
     document.getElementById('roll_indicator').innerHTML = 'Roll Again!';
     document.getElementById('roll_indicator').classList.remove('invisible');
 }
@@ -190,7 +190,7 @@ function add_score() {
 }
 
 function changeTurn() {
-    dice_rolled = false;
+    dice.rolled = false;
     newPosIndex = 0;
     if (current_player.color === 'grey') {
         current_player = playerWhite;
@@ -230,31 +230,31 @@ function eventListenersInit() {
         playerGrey.path[i].addEventListener('click', move_active_token);
         playerWhite.path[i].addEventListener('click', move_active_token);
     }
-    dice_box.addEventListener('click', rollDice);
+    dice.domEl.addEventListener('click', rollDice);
 }
 
 //Rolling variables and functions
 
 function rollDice() {
-    if (dice_rolled === false) {
+    if (dice.rolled === false) {
         document.getElementById('roll_indicator').innerHTML = 'Roll!';
         dice.diceVal1 = Math.round(Math.random() * 2);
         dice.diceVal2 = Math.round(Math.random() * 2);
 
-        roll_val = dice.calcRollVal();
+        dice.rollVal = dice.calcRollVal();
         dice.updateUI();
         // console.log(dice.dieElement1);
 
-        dice_rolled = true;
+        dice.rolled = true;
 
-        if (roll_val === 0 || countImmoveableTokens() === 7) {
+        if (dice.rollVal === 0 || countImmoveableTokens() === 7) {
             changeTurn();
             // console.log(current_player);
             return;
         }
         document.getElementById('roll_indicator').classList.add('invisible');
 
-        return roll_val;
+        return dice.rollVal;
     } else {
         console.log('no!');
     }
@@ -264,7 +264,7 @@ function end_game() {
     document.getElementById(
         'player_' + current_player.color + '_score'
     ).innerHTML = 'Winner!';
-    dice_rolled = true;
+    dice.rolled = true;
     document.getElementById('die_1').innerHTML = ' ';
     document.getElementById('die_2').innerHTML = ' ';
     document.getElementById('roll_indicator').classList.remove('invisible');

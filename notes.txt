@@ -4,28 +4,10 @@
 -make board responsive
 
 Refactoring:
-- create player class instead of 2 separate objects
 - change everything to camelCase
-- add singles event listeners to board and each player's pieces instead of many
-- create dice object
-    -rollDice method
-    -diceValue1
-    -diceValue2
-    -calcRollVal
-    -rollVal
 
 
 
-how do I make set the pathing?
-we need to know:
-- which player has access to which tiles
-- in which order the tiles should be moved through
+Bugs:
 
-we could have it so that all the tiles of a certain player have the player color class
-then we could 
-
-i could just grab all the tiles and then divy them up
-
-ideally the paths would just be in order in an array
-
-<div class="white grey path-1">
+- capturing
