@@ -56,9 +56,11 @@ var rosetteIndices = [4, 8, 13];
 //Event Listener callbacks
 
 function highlightPossibleMove() {
-    document.querySelector('.active_space')?.classList.remove('active_space');
-
     if (dice.rolled === true && current_player.tokens.includes(this)) {
+        document
+            .querySelector('.active_space')
+            ?.classList.remove('active_space');
+
         current_player.active_token = this;
         currentPosIndex = current_player.path.indexOf(this.parentElement);
         newPosIndex = currentPosIndex + dice.rollVal;
