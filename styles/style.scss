@@ -85,6 +85,17 @@ html {
     filter: drop-shadow(13px 11px 1px rgba(0, 0, 0, 0.25));
 }
 
+.tile:hover {
+    animation: tileHover 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes tileHover {
+    100% {
+        transform: translateY(-10%);
+        filter: drop-shadow(17px 14px 3px rgba(0, 0, 0, 0.25));
+    }
+}
+
 .tile_style_1 {
     background: $tileColor1;
 }
