@@ -137,8 +137,8 @@ function moveToTile() {
 function allowReroll() {
     newPosIndex = 0;
     dice.rolled = false;
-    document.querySelector('.roll-indicator').innerHTML = 'Roll Again!';
-    document.querySelector('.roll-indicator').classList.remove('invisible');
+    document.querySelector('.roll-text').innerHTML = 'Roll Again!';
+    document.querySelector('.roll-text').classList.remove('invisible');
 }
 
 function captureTile() {
@@ -188,7 +188,7 @@ function changeTurn() {
     }
     setTurnIndicator();
 
-    document.querySelector('.roll-indicator').classList.remove('invisible');
+    document.querySelector('.roll-text').classList.remove('invisible');
 }
 
 function setTurnIndicator() {
@@ -225,7 +225,7 @@ function eventListenersInit() {
 
 function rollDice() {
     if (dice.rolled === false) {
-        document.querySelector('.roll-indicator').innerHTML = 'Roll!';
+        document.querySelector('.roll-text').innerHTML = 'Roll!';
         document.querySelector('.dice-imgs').classList.remove('invisible');
         dice.rollVal = dice.calcRollVal();
         dice.updateUI();
@@ -235,7 +235,7 @@ function rollDice() {
             changeTurn();
             return;
         }
-        document.querySelector('.roll-indicator').classList.add('invisible');
+        document.querySelector('.roll-text').classList.add('invisible');
     }
 }
 
@@ -246,8 +246,8 @@ function endGame() {
     dice.rolled = true;
     document.getElementById('die_1').innerHTML = ' ';
     document.getElementById('die_2').innerHTML = ' ';
-    document.querySelector('.roll-indicator').classList.remove('invisible');
-    document.querySelector('.roll-indicator').innerHTML = 'Game Over';
+    document.querySelector('.roll-text').classList.remove('invisible');
+    document.querySelector('.roll-text').innerHTML = 'Game Over';
 }
 
 eventListenersInit();

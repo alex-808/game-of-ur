@@ -1,2 +1,5 @@
--make board responsive
+make board responsive:
+
+- fix dice box
+
 
