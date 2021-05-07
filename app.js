@@ -134,6 +134,7 @@ function moveToTile() {
     }
 }
 
+
 function allowReroll() {
     newPosIndex = 0;
     dice.rolled = false;
