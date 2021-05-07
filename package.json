@@ -1,0 +1,24 @@
+{
+  "name": "game-of-ur",
+  "version": "0.1.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rawbeef-808/game-of-ur.git"
+  },
+  "author": "Alex Davis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rawbeef-808/game-of-ur/issues"
+  },
+  "homepage": "https://github.com/rawbeef-808/game-of-ur#readme",
+  "dependencies": {
+    "parcel": "^1.12.4"
+  }
+}

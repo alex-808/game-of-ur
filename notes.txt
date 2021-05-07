@@ -1,4 +1,10 @@
--center dice div
--center game board
--move columns closer together
--make board responsive
+make board responsive:
+
+- fix dice box
+
+
+Other:
+
+- add favicon
+- protect rosettes
+- add rules button
