@@ -209,24 +209,26 @@ html {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
 }
 
 .die-img {
-  width: 45%;
+  width: 50%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .die_number {
   display: inline-block;
-  font-size: 100%;
+  font-size: 1rem;
   text-align: center;
   font-family: "Share Tech Mono";
-  width: 45%;
+  width: 50%;
 }
 
 .roll-text {
   font-family: "Euphoria Script";
+  text-align: center;
   font-size: 1.5rem;
   color: black;
 }
@@ -286,8 +288,43 @@ html {
     top: 20vh;
   }
   .dice-button {
-    top: 85vh;
-    left: 45vw;
+    top: 87vh;
+    left: 38vw;
+    width: 25%;
+    border-radius: 100px;
+  }
+  .die-img {
+    width: 40%;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    position: relative;
+    top: -1vh;
+  }
+  .die_number {
+    display: inline-block;
+    font-size: 0.66667rem;
+    text-align: center;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+    font-family: "Share Tech Mono";
+    width: 40%;
+    height: -50%;
+    position: relative;
+    top: 7vh;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .die_number {
+    top: 6vh;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .die_number {
+    top: 5vh;
   }
 }
 
@@ -307,6 +344,12 @@ html {
   .right .white {
     right: 10vw;
     top: 20vh;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .die_number {
+    top: 4vh;
   }
 }
 /*# sourceMappingURL=style.css.map */

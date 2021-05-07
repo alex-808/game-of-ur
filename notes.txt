@@ -3,3 +3,8 @@ make board responsive:
 - fix dice box
 
 
+Other:
+
+- add favicon
+- protect rosettes
+- add rules button

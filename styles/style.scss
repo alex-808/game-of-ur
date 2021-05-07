@@ -169,22 +169,23 @@ html {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: center;
 }
 .die-img {
-    width: 45%;
+    width: 50%;
+    align-self: center;
 }
 
 .die_number {
     display: inline-block;
-    font-size: 100%;
+    font-size: $fontSize / 1.5;
     text-align: center;
     font-family: $mainFont;
-    width: 45%;
+    width: 50%;
 }
 
 .roll-text {
     font-family: $secondaryFont;
+    text-align: center;
     font-size: $fontSize;
     color: black;
 }
@@ -254,11 +255,43 @@ html {
     }
 
     .dice-button {
-        top: 85vh;
-        left: 45vw;
+        top: 87vh;
+        left: 38vw;
+        width: 25%;
+        border-radius: 100px;
+    }
+
+    .die-img {
+        width: 40%;
+        align-self: center;
+        position: relative;
+        top: -1vh;
+    }
+
+    .die_number {
+        display: inline-block;
+        font-size: $fontSize / 1.5;
+        text-align: center;
+        align-self: center;
+        font-family: $mainFont;
+        width: 40%;
+        height: -50%;
+        position: relative;
+        top: 7vh;
     }
 }
 
+@media only screen and (max-width: 720px) {
+    .die_number {
+        top: 6vh;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .die_number {
+        top: 5vh;
+    }
+}
 @media only screen and (max-width: 550px) {
     .tiles_container {
         height: 67.5vh;
@@ -281,5 +314,11 @@ html {
             right: 10vw;
             top: 20vh;
         }
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .die_number {
+        top: 4vh;
     }
 }
