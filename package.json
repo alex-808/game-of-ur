@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/rawbeef-808/game-of-ur#readme",
   "dependencies": {
-    "parcel": "^1.12.4"
+    "parcel": "^2.8.2"
   }
 }
